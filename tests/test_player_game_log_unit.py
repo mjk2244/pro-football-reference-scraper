@@ -41,8 +41,13 @@ class TestClass:
         <td data-stat='team'>TAM</td><td data-stat='game_location'>@</td><td data-stat='opp'>DAL</td>
         <td data-stat='game_result'>W 19-3</td><td data-stat='pass_cmp'>18</td><td data-stat='pass_att'>27</td>
         <td data-stat='pass_yds'>212</td><td data-stat='pass_td'>1</td><td data-stat='pass_int'>1</td>
-        <td data-stat='pass_rating'>87.3</td><td data-stat='pass_sacked'>2</td><td data-stat='rush_att'>1</td>
-        <td data-stat='rush_yds'>1</td><td data-stat='rush_td'>1</td></tr></tbody>"""
+        <td data-stat='pass_rating'>87.3</td><td data-stat='pass_sacked'>2</td><td data-stat='pass_sacked_yds'>1</td>
+        <td data-stat='pass_adj_yds_per_att'>11.7</td><td data-stat='rush_att'>1</td><td data-stat='rush_yds'>1</td>
+        <td data-stat='rush_td'>1</td><td data-stat='all_td'>1</td><td data-stat='scoring'>1</td><td data-stat='fumbles_lost'>1</td>
+        <td data-stat='fumbles_rec'>1</td><td data-stat='fumbles_forced'>1</td><td data-stat='fumbles_rec_yds'>10</td>
+        <td data-stat='fumbles_rec_td'>1</td><td data-stat='offense'>10</td><td data-stat='off_pct'>100</td>
+        <td data-stat='defense'>1</td><td data-stat='def_pct'>10</td><td data-stat='special_teams'>1</td>
+        <td data-stat='st_pct'>10</td></tr></tbody>"""
         soup = BeautifulSoup(fake_html, "html.parser")
 
         # fake dataframe to check with returned dataframe
@@ -59,13 +64,28 @@ class TestClass:
                 "cmp": [18],
                 "att": [27],
                 "pass_yds": [212],
+                "pass_adj_yds_per_att": [11.7],
                 "pass_td": [1],
                 "int": [1],
                 "rating": [87.3],
                 "sacked": [2],
+                "pass_sacked_yds": [1],
                 "rush_att": [1],
                 "rush_yds": [1],
                 "rush_td": [1],
+                "all_td": [1],
+                "scoring": [1],
+                "fumbles_lost": [1],
+                "fumbles_rec": [1],
+                "fumbles_forced": [1],
+                "fumbles_rec_yds": [10],
+                "fumbles_rec_td": [1],
+                "offense_snaps": [10],
+                "off_pct": [100],
+                "defense_snaps": [1],
+                "def_pct": [10],
+                "special_teams_snaps": [1],
+                "st_pct": [10],
             }
         )
         # asserting that the returned dataframe is expected

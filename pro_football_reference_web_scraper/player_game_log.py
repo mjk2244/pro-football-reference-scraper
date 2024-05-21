@@ -94,13 +94,28 @@ def qb_game_log(soup: BeautifulSoup) -> pd.DataFrame:
         'cmp': [],
         'att': [],
         'pass_yds': [],
+        'pass_adj_yds_per_att': [],
         'pass_td': [],
         'int': [],
         'rating': [],
         'sacked': [],
+        'sacked_yds': [],
         'rush_att': [],
         'rush_yds': [],
         'rush_td': [],
+        'all_td': [],
+        'scoring': [],
+        'fumbles_lost': [],
+        'fumbles_rec': [],
+        'fumbles_forced': [],
+        'fumbles_rec_yds':[],
+        'fumbles_rec_td': [],
+        'offense_snaps': [],
+        'off_pct': [],
+        'defense_snaps': [],
+        'def_pct': [],
+        'special_teams_snaps': [],
+        'st_pct': []
     }  # type: dict
 
     table_rows = soup.find('tbody').find_all('tr')
@@ -137,6 +152,9 @@ def qb_game_log(soup: BeautifulSoup) -> pd.DataFrame:
             data['pass_yds'].append(int(table_rows[i].find('td', {'data-stat': 'pass_yds'}).text)) if table_rows[
                 i
             ].find('td', {'data-stat': 'pass_yds'}).text != '' else data['pass_yds'].append(0)
+            data['pass_adj_yds_per_att'].append(float(table_rows[i].find('td', {'data-stat': 'pass_adj_yds_per_att'}).text)) if table_rows[
+                i
+            ].find('td', {'data-stat': 'pass_adj_yds_per_att'}).text != '' else data['pass_adj_yds_per_att'].append(0)
             data['pass_td'].append(int(table_rows[i].find('td', {'data-stat': 'pass_td'}).text)) if table_rows[i].find(
                 'td', {'data-stat': 'pass_td'}
             ).text != '' else data['pass_td'].append(0)
@@ -149,6 +167,9 @@ def qb_game_log(soup: BeautifulSoup) -> pd.DataFrame:
             data['sacked'].append(int(table_rows[i].find('td', {'data-stat': 'pass_sacked'}).text)) if table_rows[
                 i
             ].find('td', {'data-stat': 'pass_sacked'}).text != '' else data['sacked'].append(0)
+            data['sacked_yds'].append(int(table_rows[i].find('td', {'data-stat': 'pass_sacked_yds'}).text)) if table_rows[
+                i
+            ].find('td', {'data-stat': 'pass_sacked_yds'}).text != '' else data['sacked_yds'].append(0)
             data['rush_att'].append(int(table_rows[i].find('td', {'data-stat': 'rush_att'}).text)) if table_rows[
                 i
             ].find('td', {'data-stat': 'rush_att'}).text != '' else data['rush_att'].append(0)
@@ -158,7 +179,46 @@ def qb_game_log(soup: BeautifulSoup) -> pd.DataFrame:
             data['rush_td'].append(int(table_rows[i].find('td', {'data-stat': 'rush_td'}).text)) if table_rows[i].find(
                 'td', {'data-stat': 'rush_td'}
             ).text != '' else data['rush_td'].append(0)
-
+            data['all_td'].append(int(table_rows[i].find('td', {'data-stat': 'all_td'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'all_td'}
+            ).text != '' else data['all_td'].append(0)
+            data['scoring'].append(int(table_rows[i].find('td', {'data-stat': 'scoring'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'scoring'}
+            ).text != '' else data['scoring'].append(0)
+            data['fumbles_lost'].append(int(table_rows[i].find('td', {'data-stat': 'fumbles_lost'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'fumbles_lost'}
+            ).text != '' else data['fumbles_lost'].append(0)
+            data['fumbles_rec'].append(int(table_rows[i].find('td', {'data-stat': 'fumbles_rec'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'fumbles_rec'}
+            ).text != '' else data['fumbles_rec'].append(0)
+            data['fumbles_forced'].append(int(table_rows[i].find('td', {'data-stat': 'fumbles_forced'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'fumbles_forced'}
+            ).text != '' else data['fumbles_forced'].append(0)
+            data['fumbles_rec_yds'].append(int(table_rows[i].find('td', {'data-stat': 'fumbles_rec_yds'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'fumbles_rec_yds'}
+            ).text != '' else data['fumbles_rec_yds'].append(0)
+            data['fumbles_rec_td'].append(int(table_rows[i].find('td', {'data-stat': 'fumbles_rec_td'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'fumbles_rec_td'}
+            ).text != '' else data['fumbles_rec_td'].append(0)
+            data['offense_snaps'].append(int(table_rows[i].find('td', {'data-stat': 'offense'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'offense'}
+            ).text != '' else data['offense_snaps'].append(0)
+            data['off_pct'].append(int(table_rows[i].find('td', {'data-stat': 'off_pct'}).text.replace('%', ''))) if table_rows[i].find(
+                'td', {'data-stat': 'off_pct'}
+            ).text != '' else data['off_pct'].append(0)
+            data['defense_snaps'].append(int(table_rows[i].find('td', {'data-stat': 'defense'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'defense'}
+            ).text != '' else data['defense_snaps'].append(0)
+            data['def_pct'].append(int(table_rows[i].find('td', {'data-stat': 'def_pct'}).text.replace('%', ''))) if table_rows[i].find(
+                'td', {'data-stat': 'def_pct'}
+            ).text != '' else data['def_pct'].append(0)
+            data['special_teams_snaps'].append(int(table_rows[i].find('td', {'data-stat': 'special_teams'}).text)) if table_rows[i].find(
+                'td', {'data-stat': 'special_teams'}
+            ).text != '' else data['special_teams_snaps'].append(0)
+            data['st_pct'].append(int(table_rows[i].find('td', {'data-stat': 'st_pct'}).text.replace('%', ''))) if table_rows[i].find(
+                'td', {'data-stat': 'st_pct'}
+            ).text != '' else data['st_pct'].append(0)
+    print (pd.DataFrame(data=data).to_json(orient='index', indent=2))
     return pd.DataFrame(data=data)
 
 
